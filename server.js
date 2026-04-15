@@ -17,13 +17,11 @@ app.get('/api/classify', async (req, res) => {
   if (!name || name.trim() === '') {
     return res.status(400).json({
       status: "error",
-      message: "Name is required"
+      message: "Missing or empty name"
     });
   }
 
-  // Non-string name
-  // Reject numeric or invalid names
-if (!isNaN(name)) {
+ if (typeof name !== 'string' || !/^[a-zA-Z]+$/.test(name.trim())) {
   return res.status(422).json({
     status: "error",
     message: "Name must be a valid string"
@@ -36,10 +34,10 @@ try {
     `https://api.genderize.io?name=${name}`
   );
 
-  const data = response.data;
+  if (!data) throw new Error("Invalid API response");
 
   if (data.gender === null || data.count === 0) {
-  return res.status(422).json({
+  return res.status(400).json({
     status: "error",
     message: "No prediction available for the provided name"
   });
@@ -47,7 +45,7 @@ try {
 
 const gender = data.gender;
 const probability = data.probability;
-const sample_size = data.count; // renamed from count
+const sample_size = data.count;
 
 const is_confident =
   probability >= 0.7 && sample_size >= 100;

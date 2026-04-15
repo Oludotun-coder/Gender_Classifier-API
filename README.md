@@ -1,12 +1,9 @@
 This is a node.js + Express API that classifies gender based on a given name using the Genderize API. The response is processed and checked before being returned.
 
-Base Endpoint
-GET /api/classify?name=<name>
+BASE ENDPOINT
+GET /api/classify?name=jerry
 
-Success Response
-
-Success Response
-```json
+SUCCESS RESPONSE
 {
   "status": "success",
   "data": {
@@ -17,16 +14,38 @@ Success Response
     "is_confident": true,
     "processed_at": "2026-04-15T20:42:49.837Z"
   }
+} 
+
+- ERROR RESPONSE
+
+400 BAD REQUEST
+
+{
+  "status": "error",
+  "message": "Name is required"
 }
 
-Error Responses
-400 Bad Request
-422 Unprocessable Entity
+422 UNPROCESSABLE ENTITY
 
-Tech Stacks
-Node.js
-Axios
-CORS
-Express
+{
+  "status": "error",
+  "message": "Name must be a valid string"
+}
 
-Live URL
+TECH STACK
+
+* Node.js
+* Express
+* Axios
+* CORS
+
+
+INSTALLATION
+npm install
+
+RUN SERVER
+node server.js
+
+LIVE URL = genderclassifier-api-production.up.railway.app
+
+
