@@ -30,9 +30,12 @@ app.get('/api/classify', async (req, res) => {
 
 
 try {
-  const response = await axios.get(
-    `https://api.genderize.io?name=${name}`
-  );
+const response = await axios.get(
+  `https://api.genderize.io?name=${name}`,
+  { timeout: 3000 }
+);
+
+const data = response.data; 
 
   if (!data) throw new Error("Invalid API response");
 
@@ -65,9 +68,10 @@ return res.status(200).json({
 });
 
   } catch (error) {
+
     return res.status(500).json({
       status: "error",
-      message: "Failed to fetch data from external API"
+      message: "Failed to Fetch data from external API"
     });
   }
 });
